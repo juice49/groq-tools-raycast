@@ -29,11 +29,13 @@ interface Props {
 const FormatGroq: ComponentType<Props> = props => {
   const groqfmt = suspend(loadGroqfmt, ['groqfmt'])
 
+  const formatGroq = useFormatGroq({
+    props,
+    groqfmt,
+  })
+
   const { route, result, input, setInputAndSubmit, clearInput, setRoute } =
-    useFormatGroq({
-      props,
-      groqfmt,
-    })
+    formatGroq
 
   useEffect(() => {
     if (result?.error) {
@@ -82,6 +84,10 @@ const FormatGroq: ComponentType<Props> = props => {
         />
       </Form>
     )
+  }
+
+  if (route === 'output' && typeof result?.error !== 'undefined') {
+    return <Error {...formatGroq} />
   }
 
   if (route === 'output' && result) {
@@ -207,3 +213,37 @@ function getDetailsFromResult({
 > {
   return { projectId, dataset, cdn, apiVersion, perspective }
 }
+
+const Error: ComponentType<FormatGroq> = ({ result, setRoute }) => (
+  <Detail
+    markdown={`# Error
+\`\`\`json
+${result?.error?.message}
+\`\`\``}
+    metadata={
+      <Detail.Metadata>
+        {typeof result?.error?.begin !== 'undefined' && (
+          <Detail.Metadata.Label
+            title='Begin'
+            text={result.error.begin.toString()}
+          />
+        )}
+        {typeof result?.error?.end !== 'undefined' && (
+          <Detail.Metadata.Label
+            title='End'
+            text={result.error.end.toString()}
+          />
+        )}
+      </Detail.Metadata>
+    }
+    actions={
+      <ActionPanel>
+        <Action
+          title='Edit Input'
+          icon={Icon.Pencil}
+          onAction={() => setRoute('input')}
+        />
+      </ActionPanel>
+    }
+  />
+)
