@@ -34,7 +34,7 @@ const FormatGroq: ComponentType<Props> = props => {
     groqfmt,
   })
 
-  const { route, result, input, setInputAndSubmit, clearInput, setRoute } =
+  const { route, result, inputProps, setInputAndSubmit, clearInput, setRoute } =
     formatGroq
 
   useEffect(() => {
@@ -79,8 +79,8 @@ const FormatGroq: ComponentType<Props> = props => {
           title='Input'
           info='GROQ query or URL.'
           placeholder='GROQ query or URL.'
-          defaultValue={input}
           autoFocus
+          {...inputProps}
         />
       </Form>
     )
@@ -141,6 +141,12 @@ interface FormatGroq {
   setInputAndSubmit: Dispatch<string>
   clearInput: () => void
   setRoute: Dispatch<SetStateAction<Route>>
+  inputProps: {
+    value: string
+    onChange: Dispatch<string>
+    onBlur: () => void
+    error: string | undefined
+  }
 }
 
 interface UseFormatGroqOptions {
@@ -148,9 +154,14 @@ interface UseFormatGroqOptions {
   groqfmt: Groqfmt
 }
 
+function inputIsValid(input: string): boolean {
+  return input !== ''
+}
+
 function useFormatGroq({ props, groqfmt }: UseFormatGroqOptions): FormatGroq {
   const [input, setInput] = useState<string>(props.defaultInput)
   const [route, setRoute] = useState<Route>(input === '' ? 'input' : 'output')
+  const [hasBlurred, setHasBlurred] = useState<boolean>(false)
 
   return {
     route,
@@ -158,10 +169,21 @@ function useFormatGroq({ props, groqfmt }: UseFormatGroqOptions): FormatGroq {
     setRoute,
     setInputAndSubmit(input: string) {
       setInput(input)
-      setRoute('output')
+      setHasBlurred(true)
+
+      if (inputIsValid(input)) {
+        setRoute('output')
+      }
     },
     clearInput() {
       setInput('')
+    },
+    inputProps: {
+      value: input,
+      onChange: setInput,
+      onBlur: () => setHasBlurred(true),
+      error:
+        hasBlurred && !inputIsValid(input) ? 'Input is required.' : undefined,
     },
     result:
       typeof input === 'undefined'
