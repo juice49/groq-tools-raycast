@@ -5,9 +5,15 @@ import loadGroqfmt from './lib/load-groqfmt'
 
 const Command = async () => {
   const groqfmt = await loadGroqfmt()
-  const input = await getSelectedText()
+  let input = ''
 
-  // TODO: Error handling.
+  try {
+    input = await getSelectedText()
+  } catch {
+    await showHUD('Unable to read selected text')
+    return
+  }
+
   const result = format({
     input: input ?? '',
     groqfmt,
