@@ -7,6 +7,8 @@ const Command = async () => {
   const groqfmt = await loadGroqfmt()
   let input = ''
 
+  // Raycast will prompt the user to grant access when attempting to use the
+  // clipboard, but not when accessing selected text.
   try {
     input = await getSelectedText()
   } catch {
