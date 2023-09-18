@@ -32,8 +32,8 @@
       "mode": "view"
     },
     {
-      "name": "format-selected-groq-in-place",
-      "title": "Format Selected GROQ In Place",
+      "name": "format-groq-in-place",
+      "title": "Format GROQ in Place",
       "description": "Format and replace the selected GROQ.",
       "mode": "no-view"
     }
