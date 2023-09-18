@@ -1,8 +1,8 @@
 {
   "$schema": "https://www.raycast.com/schemas/extension.json",
-  "name": "format-groq",
-  "title": "Format GROQ",
-  "description": "Format a GROQ query.",
+  "name": "groq-tools",
+  "title": "GROQ Tools",
+  "description": "Format GROQ queries and parse Sanity query URLs.",
   "icon": "groq.png",
   "author": "juice49",
   "categories": [
@@ -13,7 +13,8 @@
   "commands": [
     {
       "name": "format-groq",
-      "title": "Format GROQ",
+      "title": "Format",
+      "subtitle": "GROQ",
       "description": "Format a GROQ query.",
       "mode": "view",
       "arguments": [
@@ -27,13 +28,15 @@
     },
     {
       "name": "format-groq-from-clipboard",
-      "title": "Format GROQ From Clipboard",
+      "title": "Format From Clipboard",
+      "subtitle": "GROQ",
       "description": "Format a GROQ query from your clipboard.",
       "mode": "view"
     },
     {
       "name": "format-groq-in-place",
-      "title": "Format GROQ in Place",
+      "title": "Format in Place",
+      "subtitle": "GROQ",
       "description": "Format and replace the selected GROQ.",
       "mode": "no-view"
     }
