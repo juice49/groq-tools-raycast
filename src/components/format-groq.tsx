@@ -38,7 +38,7 @@ const FormatGroq: ComponentType<Props> = props => {
     formatGroq
 
   useEffect(() => {
-    if (result?.error) {
+    if (route === 'output' && result?.error) {
       showToast({
         style: Toast.Style.Failure,
         title: 'Error',
@@ -51,7 +51,7 @@ const FormatGroq: ComponentType<Props> = props => {
         },
       })
     }
-  }, [result?.error])
+  }, [result?.error, route])
 
   if (route === 'input') {
     return (
